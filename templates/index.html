@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>download</title>
+	<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+	<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+	<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<style>
+		.center-elem{
+			text-align:center;
+		}
+		.singlerow{
+			margin-top:10px
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<form action="/upload" method="post" enctype="multipart/form-data" class="center-elem singlerow">
+			<div class="col-xs-4"></div>
+			<div class="input-group col-xs-4">
+			  <input type="file" name="filecontent" accept="application/pdf,application/vnd.ms-powerpoint,application/msword,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="form-control" />
+			  <span class="input-group-btn">
+				<button class="btn btn-info" type="sumbit">提交上传</button>
+			  </span>
+			</div>
+			<div class="col-xs-4"></div>
+		</form>
+		<div class="singlerow">
+				<table class="table">
+					<tr>
+						<th class="col-xs-6 center-elem">安装包</th>
+						<th class="col-xs-3 center-elem">大小</th>
+						<th class="col-xs-3 center-elem">创建时间</th>
+					</tr>
+					<thread>
+					{% for apk in suimes %}
+					<tr>
+						<td class="center-elem"><a href="{{ apk[1] }}">{{ apk[0] }}</a></td>
+						<td class="center-elem">{{ apk[2] }}</td>
+						<td class="center-elem">{{ apk[3] }}</td>
+					</tr>
+					{% endfor %}
+					{% for apk in others %}
+					<tr>
+						<td class="center-elem"><a href="{{ apk[1] }}">{{ apk[0] }}</a></td>
+						<td class="center-elem">{{ apk[2] }}</td>
+						<td class="center-elem">{{ apk[3] }}</td>
+					</tr>
+					{% endfor %}
+					</thread>
+				</table>
+		</div>
+	</div>
+	<hr>
+	<div>
+		<div class="singlerow">
+		<table class="table">
+			<tr>
+				<th class="col-xs-6 center-elem">文件名</th>
+				<th class="col-xs-3 center-elem">大小</th>
+				<th class="col-xs-3 center-elem">创建时间</th>
+			</tr>
+			<thread>
+			{% for file in docs %}
+			<tr>
+				<td class="center-elem"><a href="{{ file[1] }}">{{ file[0] }}</a></td>
+				<td class="center-elem">{{ file[2] }}</td>
+				<td class="center-elem">{{ file[3] }}</td>
+			</tr>
+			{% endfor %}
+			</thread>
+		</table>
+		</div>
+	</div>
+</body>
+</html>
