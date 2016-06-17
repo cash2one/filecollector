@@ -19,7 +19,7 @@ def index():
 		else:
 			files.append(file)
 	backups = sorted(backups,key=lambda b: int(b.rsplit('_',1)[1].split('.')[0]),reverse=True)
-	newfiles = readstat(newfiles)
+	newfiles = sorted(readstat(newfiles),key=lambda b:b[4],reverse=True)
 	backups = readstat(backups)
 	files = readstat(files)
 	return render_template("index.html",newfiles=newfiles,backups=backups,files=files)
@@ -38,7 +38,8 @@ def readstat(filelist):
 			else:
 				times.append(str(j))
 		ftime = "%s-%s-%s %s:%s:%s" %(times[0],times[1],times[2],times[3],times[4],times[5])
-		flist.append((name,file,size,ftime))
+		uploadint  = int("%s%s%s%s%s%s" %(times[0],times[1],times[2],times[3],times[4],times[5]))
+		flist.append((name,file,size,ftime,uploadint))
 	return flist
 
 @app.route("/upload",methods=["POST"])
@@ -48,7 +49,7 @@ def upload():
 		prefix,suffix = f.filename.rsplit(".",1)
 		if f.filename in os.listdir("static"):
 			tmpstr = time.strftime("_%Y%m%d%H%M%S")
-			os.system("mv %s %s" %(f.filename,os.path.join(UPLOAD_FOLDER,"%s%s.%s" %(prefix,tmpstr,suffix))))
+			os.system("mv %s %s" %(os.path.join(UPLOAD_FOLDER,f.filename),os.path.join(UPLOAD_FOLDER,"%s%s.%s" %(prefix,tmpstr,suffix))))
 		file = os.path.join(UPLOAD_FOLDER,f.filename)
 		f.save(file)
 	except Exception as e:
